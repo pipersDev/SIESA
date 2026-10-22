@@ -80,4 +80,16 @@ public class OrderService
 
         throw new Exception("No se pudo procesar el pedido debido a alta concurrencia en este momento.");
     }
+
+    // Obtener todas las órdenes
+    public async Task<List<Order>> GetAllOrdersAsync(CancellationToken ct = default)
+    {
+        return await _context.Orders.ToListAsync(ct);
+    }
+
+    // Obtener orden por ID
+    public async Task<Order?> GetOrderByIdAsync(int id, CancellationToken ct = default)
+    {
+        return await _context.Orders.FindAsync([id], ct);
+    }
 }

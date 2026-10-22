@@ -3,6 +3,7 @@
 using Infrastructure.Data;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Infrastructure.Services;
 
 public static class ProductEndpoints
 {
@@ -11,9 +12,9 @@ public static class ProductEndpoints
         var group = routes.MapGroup("/api/products").WithTags("Products");
 
         // Endpoint para consultar todos los productos y ver su stock disponible
-        group.MapGet("/", async (AppDbContext context, CancellationToken ct) =>
+        group.MapGet("/", async (ProductService procutService, AppDbContext context, CancellationToken ct) =>
         {
-            var products = await context.Products.ToListAsync(ct);
+            var products = await procutService.GetAllProductsAsync(ct);
             return Results.Ok(products);
         })
         .WithName("GetAllProducts")

@@ -14,6 +14,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Inyección de dependencias
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<ProductService>();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();

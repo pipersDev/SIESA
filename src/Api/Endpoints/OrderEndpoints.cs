@@ -4,10 +4,10 @@ using Application.DTOs;
 using Domain.Entities;
 using Application.Services;
 using Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 
 public static class OrderEndpoints
 {
+    private static readonly AppDbContext _context;
     public static void MapOrderEndpoints(this IEndpointRouteBuilder routes)
     {
         var group = routes.MapGroup("/api/orders").WithTags("Orders");
@@ -22,17 +22,17 @@ public static class OrderEndpoints
         .Produces(StatusCodes.Status400BadRequest)
         .Produces(StatusCodes.Status404NotFound);
 
-        group.MapGet("/", async (AppDbContext context, CancellationToken ct) =>
+        group.MapGet("/", async (OrderService orderService,  CancellationToken ct) =>
         {
-            var orders = await context.Orders.ToListAsync(ct);
+            var orders = await orderService.GetAllOrdersAsync(ct);
             return Results.Ok(orders);
         })
         .WithName("GetAllOrders")
         .Produces<List<Order>>(StatusCodes.Status200OK);
 
-        group.MapGet("/{id:int}", async (int id, AppDbContext context, CancellationToken ct) =>
+        group.MapGet("/{id:int}", async (int id, OrderService orderService, CancellationToken ct) =>
         {
-            var order = await context.Orders.FindAsync(new object[] { id }, ct);
+            var order = await orderService.GetOrderByIdAsync(id, ct);
             return order is not null ? Results.Ok(order) : Results.NotFound();
         })
         .WithName("GetOrderById")
