@@ -1,0 +1,20 @@
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+.vs/
+.vscode/
+*.user
+*.userosscache
+*.sln.docstates
+
+SQLite Database files
+
+*.db
+*.db-shm
+*.db-wal
+
+OS Generated Files
+
+.DS_Store
+Thumbs.db
